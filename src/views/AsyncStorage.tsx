@@ -1,12 +1,16 @@
 import React, { useRef, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert, SafeAreaView, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { getData, storeData ,searchData} from "../utils/helper";
+import { getData, storeData ,searchData, mergeUser} from "../utils/helper";
 const Storage=()=>{
     const details={
         name:useRef(''),
         age:useRef(''),
         id:useRef(''),
+        mergename:useRef(''),
+        mergeage:useRef(''),
+        mergeid:useRef(''),
+
     };
     const [name,setname]=useState<string>('');
     const [age,setAge]=useState<string>('');
@@ -37,6 +41,16 @@ const Storage=()=>{
         }
      }
 
+     function handlemerge(){
+        if(details.mergename.current.length<4 && details.mergeage.current.length>2 && details.mergeid.current.length!=0){
+            Alert.alert("Please Fill all details")
+        }
+        else{
+            mergeUser({name:`${details.mergename.current}`, age:`${details.mergeage.current}` }, details.mergeid.current)
+        }
+
+     }
+
     return(
 <SafeAreaView >
     <Text style={{alignSelf:'center',fontSize:20,fontWeight:'500'}}> AsyncStorage</Text>
@@ -62,15 +76,9 @@ onChangeText={(text:string)=>{
 }}
 style={{padding:10,backgroundColor:'#E6E6E6',marginHorizontal:30,borderRadius:20,marginVertical:10}}
 />
-
-   
-    
     <TouchableOpacity onPress={handlesendData} style={{padding:20,backgroundColor:'#E6E6E6',borderRadius:100,alignSelf:'center'}}>
         <Text style={{alignSelf:'center',fontSize:20,fontWeight:'500'}}>Set data</Text>
     </TouchableOpacity>
-
-
-
     <TextInput 
 placeholder="Enter Id To Search"
 placeholderTextColor={'#000000'}
@@ -98,6 +106,39 @@ style={{padding:10,backgroundColor:'#E6E6E6',marginHorizontal:30,borderRadius:20
         <View/>
 
     }
+    <View>
+
+    <TextInput 
+placeholder="Enter Id To merge"
+placeholderTextColor={'#000000'}
+onChangeText={(text:string)=>{
+    details.mergeid.current=text;
+}}
+style={{padding:10,backgroundColor:'#E6E6E6',marginHorizontal:30,borderRadius:20,marginVertical:10}}
+
+/>
+
+<TextInput 
+placeholder="Enter name"
+placeholderTextColor={'#000000'}
+onChangeText={(text:string)=>{
+    details.mergename.current=text;
+}}
+style={{padding:10,backgroundColor:'#E6E6E6',marginHorizontal:30,borderRadius:20,marginVertical:10}}
+/>
+<TextInput 
+placeholder="Enter age"
+placeholderTextColor={'#000000'}
+onChangeText={(text:string)=>{
+    details.mergeage.current=text;
+}}
+style={{padding:10,backgroundColor:'#E6E6E6',marginHorizontal:30,borderRadius:20,marginVertical:10}}
+/>
+    <TouchableOpacity onPress={handlemerge} style={{padding:20,backgroundColor:'#E6E6E6',borderRadius:100,alignSelf:'center'}}>
+        <Text style={{alignSelf:'center',fontSize:20,fontWeight:'500'}}>Merge data</Text>
+    </TouchableOpacity>
+
+    </View>
     </View>
 </SafeAreaView>
 

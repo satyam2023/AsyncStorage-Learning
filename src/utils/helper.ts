@@ -74,7 +74,7 @@ const storeData = async (value:Iuser) => {
 
 
 
-  async function mergeUser(id:number,data:any){
+  async function mergeUser(data:any,id:string){
 
 
     try{
@@ -83,7 +83,8 @@ const storeData = async (value:Iuser) => {
       console.log("Current User Details:::",currentUser);
 
     }
-    catch{
+    catch (e){
+      console.log(e);
 
     }
 
